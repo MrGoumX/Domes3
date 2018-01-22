@@ -1,24 +1,21 @@
-public class ListNode<T> {
-    private T element;
-    protected QueueNode<T> next;
+public class ListNode {
+    private BookInfo element;
+    protected ListNode next;
 
-    //Constructors
-    public QueueNode(T element) {
+    public ListNode(BookInfo element){
         this(element, null);
     }
 
-    public QueueNode(T element, QueueNode<T> next) {
+    public ListNode(BookInfo element, ListNode next){
         this.element = element;
         this.next = next;
     }
 
-    //Returns the element of the the QueueNode
-    T getElement() {
+    public BookInfo getElement(){
         return element;
     }
 
-    //Returns the next QueueNode
-    QueueNode<T> getNext() {
+    public ListNode getNext() {
         return next;
     }
 }

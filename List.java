@@ -1,67 +1,95 @@
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
 
-public class List<T> implements ListInt<T> {
-    private QueueNode<T> first, last;
+public class List implements ListInt{
+    private ListNode first, last;
     private int size;
 
-    //Checks if queue is empty
     @Override
     public boolean isEmpty() {
         return first == null;
     }
 
-    //Adds item in the back of the queue
     @Override
-    public void put(T item) {
-        QueueNode<T> temp = new QueueNode<T>(item);
-        if (isEmpty()) {
+    public void put(BookInfo item) {
+        ListNode temp = new ListNode(item);
+        if(isEmpty()){
             first = last = temp;
             size++;
-        } else {
-            last.next = temp;
-            last = temp;
-            size++;
+        }
+        else{
+            if(temp.getElement().getISBN() < first.getElement().getISBN()){
+                temp.next = first;
+                first = temp;
+                size++;
+            }
+            else{
+                ListNode p = null;
+                ListNode c = first;
+                while(c!=null){
+                    if(c.getElement().getISBN() == temp.getElement().getISBN()){
+                        System.out.println("No duplicates allowed");
+                        return;
+                    }
+                    if(c.getElement().getISBN() < temp.getElement().getISBN()){
+                        p = c;
+                        c = c.next;
+                    }
+                    break;
+                }
+                p.next = temp;
+                temp.next = c;
+                c = temp;
+                size++;
+            }
         }
     }
 
-    //Removes item from the front of the queue
     @Override
-    public T get() throws NoSuchElementException {
-        if (isEmpty()) throw new NoSuchElementException();
-        T removed = first.getElement();
-        if (first == last) {
-            first = last = null;
-        } else {
+    public void remove(BookInfo item) throws NoSuchElementException {
+        if(isEmpty()) throw new NoSuchElementException();
+        if(first.getElement().getISBN() == item.getISBN()){
             first = first.next;
+            size--;
         }
-        size--;
-        return removed;
+        else{
+            ListNode p = null;
+            ListNode c = first;
+            while(c!=null){
+                if(c.getElement().getISBN() == item.getISBN()){
+                    p.next = c.next;
+                    size--;
+                }
+                p = c;
+                c = c.next;
+            }
+        }
     }
 
-    //Returns the first item of the queue without removing it
     @Override
-    public T peek() throws NoSuchElementException {
-        if (isEmpty()) throw new NoSuchElementException();
-        return first.getElement();
-    }
-
-    //Prints the queue
-    @Override
-    public void printQueue(PrintStream stream) {
-        if (isEmpty()) {
-            System.out.printf("The Queue is empty");
-            return;
-        }
-        QueueNode<T> temp = first;
-        while (temp != null) {
-            System.out.printf("%s ", temp.getElement());
+    public ListNode search(int item) throws NoSuchElementException {
+        ListNode temp = first;
+        while (temp != null){
+            if(temp.getElement().getISBN() == item){
+                return temp;
+            }
             temp = temp.getNext();
         }
-        System.out.printf(System.lineSeparator());
+        return null;
     }
 
-    //Returns the size of the queue
+    @Override
+    public void printList(PrintStream stream) {
+        if(isEmpty()){
+            System.out.println("The List is empty");
+        }
+        ListNode temp = first;
+        while(temp!=null){
+            System.out.println("Book with ISBN " + temp.getElement().getISBN() + " has " + temp.getElement().getCopies() + " copies.");
+            temp = temp.getNext();
+        }
+    }
+
     @Override
     public int size() {
         return size;

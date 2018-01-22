@@ -1,25 +1,31 @@
-private class BookInfo {
-  int copies;
-  int internationalSBN;
+import java.time.chrono.IsoChronology;
 
-  BookInfo(int internationalSBN, int copies) {
-    this.internationalSBN = internationalSBN;
-    this.copies = copies;
-  }
+public class BookInfo {
+    private int copies = 0;
+    private int ISBN;
 
-  void setISBN(int ISBN) {
-    this.internationalSBN = ISBN;
-  }
+    BookInfo(int ISBN,int copies){
+        this.ISBN = ISBN;
+        this.copies = copies;
+    }
 
-  void updateCopies(int copies) {
-    this.copies = copies;
-  }
+    public void setISBN(int ISBN){
+        this.ISBN = ISBN;
+    }
 
-  int getISBN() {
-    return internationalSBN;
-  }
+    public void updateCopies(int copies){
+        this.copies += copies;
+    }
 
-  int getCopies() {
-    return copies;
-  }
+    public void reduceCopies(){
+        this.copies--;
+    }
+
+    public int getISBN(){
+        return ISBN;
+    }
+
+    public int getCopies(){
+        return copies;
+    }
 }

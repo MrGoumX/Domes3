@@ -1,50 +1,98 @@
-private class TreeNode {
-  int id;
-  String city;
-  TreeNode l;
-  TreeNode r;
-  TreeNode p;
-  int N;
-  List booklist;
+public class TreeNode {
+    private int id;
+    private String city;
+    private TreeNode l,r;
+    private int N;
+    private List booklist = new List();
 
-  TreeNode(int id, String city) {
-    this.id = id;
-    this.city = city;
-  }
+    TreeNode(int id, String city){
+        this.id = id;
+        this.city = city;
+    }
 
-  TreeNode(int id, String city, TreeNode p) {
-    this.id = id;
-    this.city = city;
-    this.p = p;
-  }
+    public void raiseTreeSize(){
+        N++;
+    }
 
-  TreeNode getRight() {
-    return r;
-  }
+    public void reduceTreeSize(){
+        N--;
+    }
 
-  TreeNode getLeft() {
-    return l;
-  }
+    public TreeNode getRight(){
+        return r;
+    }
 
-  void getTreeSize() {
-    return N;
-  }
+    public TreeNode getLeft(){
+        return l;
+    }
 
-  String getCity() {
-    return city;
-  }
+    public int getTreeSize(){
+        return N;
+    }
 
-  List getList(){
-    return List;
-  }
+    public String getCity(){
+        return city;
+    }
 
-  void setLeft(TreeNode l) {
-    this.l = l;
-    N++;
-  }
+    public List getList(){
+        return booklist;
+    }
 
-  void setRight(TreeNode r) {
-    this.r = r;
-    N++;
-  }
+    public int getID(){
+        return id;
+    }
+
+    public void setLeft(TreeNode l){
+        this.l = l;
+    }
+
+    public void setRight(TreeNode r){
+        this.r = r;
+    }
+
+    public void printBooks(){
+        booklist.printList(System.out);
+    }
+
+    public void insertBook(int ISBN, int copies){
+        ListNode temp = booklist.search(ISBN);
+        if(temp!=null){
+            temp.getElement().updateCopies(copies);
+        }
+        else{
+            BookInfo toIns = new BookInfo(ISBN, copies);
+            booklist.put(toIns);
+        }
+    }
+
+    public boolean removeBook(int ISBN){
+        ListNode temp = booklist.search(ISBN);
+        if(temp!=null){
+            if(temp.getElement().getCopies()!=0){
+                temp.getElement().reduceCopies();
+                if(temp.getElement().getCopies()==0){
+                    booklist.remove(temp.getElement());
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void searchBook(int isbn) {
+        ListNode temp = booklist.search(isbn);
+        if(temp!=null) {
+            System.out.println("Book with ISBN " + temp.getElement().getISBN() + " has " + temp.getElement().getCopies() + " copies.");
+        }
+        else System.out.println("There is no such book in the warehouse");
+    }
+
+    public int getBookCopies(int isbn) {
+        ListNode temp = booklist.search(isbn);
+        int copies = 0;
+        if(temp!=null){
+            copies = temp.getElement().getCopies();
+        }
+        return copies;
+    }
 }
