@@ -6,7 +6,7 @@ public class ST implements STInt{
     ST(){
     }
 
-    private int getNumberOfWarehouses(){
+    public int getNumberOfWarehouses(){
         return head.getTreeSize();
     }
 
@@ -35,12 +35,13 @@ public class ST implements STInt{
         else{
             currentRefPoint.setRight(insertRandomly(currentRefPoint.getRight(), nodeid, name));
         }
+        currentRefPoint.raiseTreeSize();
         return currentRefPoint;
     }
 
     private TreeNode rotateLeft(TreeNode referencePoint){
         TreeNode toRise = referencePoint.getRight();
-        referencePoint.setRight(toRise.getRight());
+        referencePoint.setRight(toRise.getLeft());
         toRise.setLeft(referencePoint);
         return toRise;
     }
@@ -162,9 +163,7 @@ public class ST implements STInt{
         }
         else{
             head = joinLR(head.getLeft(), head.getRight());
-            if(head!=null){
-                head.reduceTreeSize();
-            }
+            if(head!=null)head.reduceTreeSize();
         }
         return head;
     }
